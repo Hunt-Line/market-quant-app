@@ -76,7 +76,7 @@ if check_password():
         st.rerun()
 
         if page == "Power Scanner":
-        st.header("🔍 Alpha Discovery & Risk Engine")
+            st.header("🔍 Alpha Discovery & Risk Engine")
         watchlist = st.text_area("Your Favorites (Comma Separated):", st.session_state.my_watchlist)
         
         if st.button("💾 Save Watchlist"):
@@ -97,8 +97,11 @@ if check_password():
                 st.subheader("Analysis Results")
                 st.dataframe(df.style.map(style_results, subset=['Alpha', 'Sharpe']))
 
-
-
+                    # 📈 THE TURBO BOOSTER: Price Chart
+                st.subheader(f"Price Trend for {tickers[0]}")
+                # This grabs the last 6 months of prices for the first stock in your list
+                chart_data = yf.download(tickers[0], period="6mo")['Close']
+                st.line_chart(chart_data)
 
     elif page == "News Feed":
         st.header("📰 Live Market Context")
