@@ -75,20 +75,19 @@ if check_password():
         st.cache_data.clear()
         st.rerun()
 
-    if page == "Power Scanner":
+        if page == "Power Scanner":
         st.header("🔍 Alpha Discovery & Risk Engine")
-        watchlist = st.text_area("Your Favorites:", st.session_state.my_watchlist)
+        watchlist = st.text_area("Your Favorites (Comma Separated):", st.session_state.my_watchlist)
         
         if st.button("💾 Save Watchlist"):
             st.session_state.my_watchlist = watchlist
-            st.success("Saved!")
+            st.success("Watchlist Saved Locally!")
 
-               if st.button("🚀 Run Full Analysis"):
+        if st.button("🚀 Run Full Analysis"):
             tickers = [t.strip().upper() for t in watchlist.split(",")]
             with st.spinner("Crunching Math..."):
                 df = get_analysis(tickers)
                 
-                # --- This is the part we are fixing ---
                 def style_results(val):
                     if isinstance(val, (int, float)):
                         color = 'green' if val > 0 else 'red'
@@ -97,6 +96,7 @@ if check_password():
                 
                 st.subheader("Analysis Results")
                 st.dataframe(df.style.map(style_results, subset=['Alpha', 'Sharpe']))
+
 
 
 
