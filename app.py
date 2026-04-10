@@ -88,11 +88,15 @@ if check_password():
             df = get_analysis(tickers)
             
             def style_results(val):
-                if isinstance(val, float):
-                    return f'color: {"green" if val > 0 else "red"}; font-weight: bold'
-                return ''
+    if isinstance(val, (int, float)):
+        color = 'green' if val > 0 else 'red'
+        return f'color: {color}; font-weight: bold'
+    return ''
+
             
-            st.dataframe(df.style.applymap(style_results, subset=['Alpha', 'Sharpe']), use_container_width=True)
+            # We changed 'applymap' to 'map' to match the new rules
+st.dataframe(df.style.map(style_results, subset=['Alpha', 'Sharpe']))
+
 
     elif page == "News Feed":
         st.header("📰 Live Market Context")
