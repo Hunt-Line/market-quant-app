@@ -40,13 +40,18 @@ def get_analysis(tickers):
         alpha = ann_ret - (0.04 + beta * (mkt_ret - 0.04))
         sharpe = (ann_ret - 0.04) / vol
         
-        # Earnings Check
-        cal = stock.calendar
-        earn_msg = "N/A"
-        if isinstance(cal, dict) and 'Earnings Date' in cal:
-            next_earn = cal['Earnings Date'][0]
-            days_to = (next_earn.date() - datetime.now().date()).days
-            earn_msg = f"In {days_to} Days" if days_to > 0 else "Today/Past"
+               # ⏰ Clock: Next Earnings (Updated Safer Version)
+        try:
+            cal = stock.calendar
+            earn_msg = "N/A"
+            if isinstance(cal, dict) and 'Earnings Date' in cal:
+                # Get the date safely from the list
+                next_earn = cal['Earnings Date'][0] 
+                days_to = (next_earn.date() - datetime.now().date()).days
+                earn_msg = f"In {days_to} Days" if days_to > 0 else "Today/Past"
+        except:
+            earn_msg = "N/A"
+
 
         results.append({
             "Ticker": t,
