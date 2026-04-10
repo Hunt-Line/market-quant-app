@@ -83,20 +83,21 @@ if check_password():
             st.session_state.my_watchlist = watchlist
             st.success("Saved!")
 
-        if st.button("🚀 Run Full Analysis"):
+               if st.button("🚀 Run Full Analysis"):
             tickers = [t.strip().upper() for t in watchlist.split(",")]
-            df = get_analysis(tickers)
-            
-       def style_results(val):
-           if isinstance(val, (int, float)):
-               color = 'green' if val > 0 else 'red'
-               return f'color: {color}; font-weight: bold'
-           return ''
+            with st.spinner("Crunching Math..."):
+                df = get_analysis(tickers)
+                
+                # --- This is the part we are fixing ---
+                def style_results(val):
+                    if isinstance(val, (int, float)):
+                        color = 'green' if val > 0 else 'red'
+                        return f'color: {color}; font-weight: bold'
+                    return ''
+                
+                st.subheader("Analysis Results")
+                st.dataframe(df.style.map(style_results, subset=['Alpha', 'Sharpe']))
 
-
-            
-            # We changed 'applymap' to 'map' to match the new rules
-st.dataframe(df.style.map(style_results, subset=['Alpha', 'Sharpe']))
 
 
     elif page == "News Feed":
