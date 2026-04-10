@@ -87,11 +87,12 @@ if check_password():
             tickers = [t.strip().upper() for t in watchlist.split(",")]
             df = get_analysis(tickers)
             
-            def style_results(val):
-    if isinstance(val, (int, float)):
-        color = 'green' if val > 0 else 'red'
-        return f'color: {color}; font-weight: bold'
-    return ''
+       def style_results(val):
+           if isinstance(val, (int, float)):
+               color = 'green' if val > 0 else 'red'
+               return f'color: {color}; font-weight: bold'
+           return ''
+
 
             
             # We changed 'applymap' to 'map' to match the new rules
