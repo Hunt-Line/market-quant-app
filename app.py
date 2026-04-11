@@ -97,17 +97,4 @@ if check_password():
                 st.subheader("Analysis Results")
                 st.dataframe(df.style.map(style_results, subset=['Alpha', 'Sharpe']))
 
-                    # 📈 THE TURBO BOOSTER: Price Chart
-                st.subheader(f"Price Trend for {tickers[0]}")
-                # This grabs the last 6 months of prices for the first stock in your list
-                chart_data = yf.download(tickers[0], period="6mo")['Close']
-                st.line_chart(chart_data)
-
-    elif page == "News Feed":
-        st.header("📰 Live Market Context")
-        t_choice = st.selectbox("Select Ticker", st.session_state.my_watchlist.split(","))
-        news = yf.Ticker(t_choice.strip()).news
-        for item in news[:5]:
-            st.write(f"**{item['title']}**")
-            st.caption(f"Source: {item['publisher']} | [Read]({item['link']})")
-            st.divider()
+      
